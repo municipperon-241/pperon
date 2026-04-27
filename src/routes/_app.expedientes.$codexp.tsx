@@ -339,7 +339,9 @@ function NuevoMovimientoDialog({
             <Label className="text-xs">Tipo</Label>
             <Select
               value={form.tipo_movimiento}
-              onValueChange={(v) => setForm((s) => ({ ...s, tipo_movimiento: v }))}
+              onValueChange={(v) =>
+                setForm((s) => ({ ...s, tipo_movimiento: v as "Normal" | "Reapertura" }))
+              }
               disabled={finalizado}
             >
               <SelectTrigger>
