@@ -282,9 +282,10 @@ function NuevoMovimientoDialog({
     setSaving(true);
     const { error } = await supabase.from("movimientos").insert({
       codexp,
+      nromov: 0, // será reemplazado por el trigger handle_nuevo_movimiento
       oficina_id: form.oficina_id,
-      estado_resultante: form.estado_resultante,
-      tipo_movimiento: form.tipo_movimiento,
+      estado_resultante: form.estado_resultante as Estado,
+      tipo_movimiento: form.tipo_movimiento as "Normal" | "Reapertura",
       observac: form.observac || null,
       created_by: form.operador,
     });
@@ -348,7 +349,7 @@ function NuevoMovimientoDialog({
             <Label className="text-xs">Estado resultante *</Label>
             <Select
               value={form.estado_resultante}
-              onValueChange={(v) => setForm((s) => ({ ...s, estado_resultante: v }))}
+              onValueChange={(v) => setForm((s) => ({ ...s, estado_resultante: v as Estado }))}
             >
               <SelectTrigger>
                 <SelectValue />
