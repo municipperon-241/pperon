@@ -14,7 +14,200 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      configuracion: {
+        Row: {
+          direccion: string | null
+          id: number
+          logo_url: string | null
+          municipalidad: string
+          updated_at: string
+        }
+        Insert: {
+          direccion?: string | null
+          id?: number
+          logo_url?: string | null
+          municipalidad?: string
+          updated_at?: string
+        }
+        Update: {
+          direccion?: string | null
+          id?: number
+          logo_url?: string | null
+          municipalidad?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      expedientes: {
+        Row: {
+          anoexp: number
+          apeynom: string
+          codexp: string
+          codigo: number
+          comentario: string | null
+          created_at: string
+          created_by: string | null
+          estado: Database["public"]["Enums"]["estado_expediente"]
+          exp_anexados: string[] | null
+          fechent: string
+          infraccion: string | null
+          iniciado_nro: string | null
+          iniciado_por: string | null
+          letraexp: string
+          nro_acta: string | null
+          nro_juzgado: string | null
+          nro_objeto: string | null
+          nroexp: number
+          oficina_inicio_id: string | null
+          organismo: string
+          tema: string
+          tipo_objeto: string | null
+          ultima_nota: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          anoexp: number
+          apeynom: string
+          codexp: string
+          codigo: number
+          comentario?: string | null
+          created_at?: string
+          created_by?: string | null
+          estado?: Database["public"]["Enums"]["estado_expediente"]
+          exp_anexados?: string[] | null
+          fechent: string
+          infraccion?: string | null
+          iniciado_nro?: string | null
+          iniciado_por?: string | null
+          letraexp: string
+          nro_acta?: string | null
+          nro_juzgado?: string | null
+          nro_objeto?: string | null
+          nroexp: number
+          oficina_inicio_id?: string | null
+          organismo: string
+          tema: string
+          tipo_objeto?: string | null
+          ultima_nota?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          anoexp?: number
+          apeynom?: string
+          codexp?: string
+          codigo?: number
+          comentario?: string | null
+          created_at?: string
+          created_by?: string | null
+          estado?: Database["public"]["Enums"]["estado_expediente"]
+          exp_anexados?: string[] | null
+          fechent?: string
+          infraccion?: string | null
+          iniciado_nro?: string | null
+          iniciado_por?: string | null
+          letraexp?: string
+          nro_acta?: string | null
+          nro_juzgado?: string | null
+          nro_objeto?: string | null
+          nroexp?: number
+          oficina_inicio_id?: string | null
+          organismo?: string
+          tema?: string
+          tipo_objeto?: string | null
+          ultima_nota?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expedientes_oficina_inicio_id_fkey"
+            columns: ["oficina_inicio_id"]
+            isOneToOne: false
+            referencedRelation: "oficinas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      movimientos: {
+        Row: {
+          codexp: string
+          created_at: string
+          created_by: string | null
+          estado_resultante: Database["public"]["Enums"]["estado_expediente"]
+          fechaini: string
+          fecsarea: string | null
+          id: string
+          nromov: number
+          observac: string | null
+          oficina_id: string
+          tipo_movimiento: Database["public"]["Enums"]["tipo_movimiento"]
+        }
+        Insert: {
+          codexp: string
+          created_at?: string
+          created_by?: string | null
+          estado_resultante: Database["public"]["Enums"]["estado_expediente"]
+          fechaini?: string
+          fecsarea?: string | null
+          id?: string
+          nromov: number
+          observac?: string | null
+          oficina_id: string
+          tipo_movimiento?: Database["public"]["Enums"]["tipo_movimiento"]
+        }
+        Update: {
+          codexp?: string
+          created_at?: string
+          created_by?: string | null
+          estado_resultante?: Database["public"]["Enums"]["estado_expediente"]
+          fechaini?: string
+          fecsarea?: string | null
+          id?: string
+          nromov?: number
+          observac?: string | null
+          oficina_id?: string
+          tipo_movimiento?: Database["public"]["Enums"]["tipo_movimiento"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movimientos_codexp_fkey"
+            columns: ["codexp"]
+            isOneToOne: false
+            referencedRelation: "expedientes"
+            referencedColumns: ["codexp"]
+          },
+          {
+            foreignKeyName: "movimientos_oficina_id_fkey"
+            columns: ["oficina_id"]
+            isOneToOne: false
+            referencedRelation: "oficinas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      oficinas: {
+        Row: {
+          activa: boolean
+          created_at: string
+          id: string
+          nombre: string
+        }
+        Insert: {
+          activa?: boolean
+          created_at?: string
+          id?: string
+          nombre: string
+        }
+        Update: {
+          activa?: boolean
+          created_at?: string
+          id?: string
+          nombre?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +216,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      estado_expediente: "Pendiente" | "Demorado" | "Archivado" | "Finalizado"
+      tipo_movimiento: "Normal" | "Reapertura"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +344,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      estado_expediente: ["Pendiente", "Demorado", "Archivado", "Finalizado"],
+      tipo_movimiento: ["Normal", "Reapertura"],
+    },
   },
 } as const
