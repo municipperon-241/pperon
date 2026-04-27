@@ -252,7 +252,13 @@ function NuevoMovimientoDialog({
 }) {
   const [saving, setSaving] = useState(false);
   const finalizado = estadoActual === "Finalizado";
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    oficina_id: string;
+    estado_resultante: Estado;
+    tipo_movimiento: "Normal" | "Reapertura";
+    observac: string;
+    operador: string;
+  }>({
     oficina_id: "",
     estado_resultante: finalizado ? "Pendiente" : estadoActual,
     tipo_movimiento: finalizado ? "Reapertura" : "Normal",
