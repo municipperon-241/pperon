@@ -299,6 +299,14 @@ function NuevoExpedientePage() {
   );
 }
 
+const COL_CLASSES: Record<number, string> = {
+  2: "md:col-span-2",
+  3: "md:col-span-3",
+  4: "md:col-span-4",
+  6: "md:col-span-6",
+  12: "md:col-span-12",
+};
+
 function Field({
   label,
   cols,
@@ -309,7 +317,7 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`col-span-12 md:col-span-${cols}`}>
+    <div className={`col-span-12 ${COL_CLASSES[cols] ?? "md:col-span-12"}`}>
       <Label className="text-xs uppercase tracking-wide text-muted-foreground mb-1 block">
         {label}
       </Label>
