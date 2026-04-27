@@ -9,38 +9,130 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppOficinasRouteImport } from './routes/_app.oficinas'
+import { Route as AppConfiguracionRouteImport } from './routes/_app.configuracion'
+import { Route as AppExpedientesIndexRouteImport } from './routes/_app.expedientes.index'
+import { Route as AppExpedientesNuevoRouteImport } from './routes/_app.expedientes.nuevo'
+import { Route as AppExpedientesCodexpRouteImport } from './routes/_app.expedientes.$codexp'
+import { Route as AppExpedientesCodexpCaratulaRouteImport } from './routes/_app.expedientes.$codexp.caratula'
 
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppOficinasRoute = AppOficinasRouteImport.update({
+  id: '/oficinas',
+  path: '/oficinas',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppConfiguracionRoute = AppConfiguracionRouteImport.update({
+  id: '/configuracion',
+  path: '/configuracion',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExpedientesIndexRoute = AppExpedientesIndexRouteImport.update({
+  id: '/expedientes/',
+  path: '/expedientes/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExpedientesNuevoRoute = AppExpedientesNuevoRouteImport.update({
+  id: '/expedientes/nuevo',
+  path: '/expedientes/nuevo',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExpedientesCodexpRoute = AppExpedientesCodexpRouteImport.update({
+  id: '/expedientes/$codexp',
+  path: '/expedientes/$codexp',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExpedientesCodexpCaratulaRoute =
+  AppExpedientesCodexpCaratulaRouteImport.update({
+    id: '/caratula',
+    path: '/caratula',
+    getParentRoute: () => AppExpedientesCodexpRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/configuracion': typeof AppConfiguracionRoute
+  '/oficinas': typeof AppOficinasRoute
+  '/expedientes/$codexp': typeof AppExpedientesCodexpRouteWithChildren
+  '/expedientes/nuevo': typeof AppExpedientesNuevoRoute
+  '/expedientes/': typeof AppExpedientesIndexRoute
+  '/expedientes/$codexp/caratula': typeof AppExpedientesCodexpCaratulaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/configuracion': typeof AppConfiguracionRoute
+  '/oficinas': typeof AppOficinasRoute
+  '/expedientes/$codexp': typeof AppExpedientesCodexpRouteWithChildren
+  '/expedientes/nuevo': typeof AppExpedientesNuevoRoute
+  '/expedientes': typeof AppExpedientesIndexRoute
+  '/expedientes/$codexp/caratula': typeof AppExpedientesCodexpCaratulaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/configuracion': typeof AppConfiguracionRoute
+  '/_app/oficinas': typeof AppOficinasRoute
+  '/_app/expedientes/$codexp': typeof AppExpedientesCodexpRouteWithChildren
+  '/_app/expedientes/nuevo': typeof AppExpedientesNuevoRoute
+  '/_app/expedientes/': typeof AppExpedientesIndexRoute
+  '/_app/expedientes/$codexp/caratula': typeof AppExpedientesCodexpCaratulaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/configuracion'
+    | '/oficinas'
+    | '/expedientes/$codexp'
+    | '/expedientes/nuevo'
+    | '/expedientes/'
+    | '/expedientes/$codexp/caratula'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/configuracion'
+    | '/oficinas'
+    | '/expedientes/$codexp'
+    | '/expedientes/nuevo'
+    | '/expedientes'
+    | '/expedientes/$codexp/caratula'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/_app/configuracion'
+    | '/_app/oficinas'
+    | '/_app/expedientes/$codexp'
+    | '/_app/expedientes/nuevo'
+    | '/_app/expedientes/'
+    | '/_app/expedientes/$codexp/caratula'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,21 +140,84 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/oficinas': {
+      id: '/_app/oficinas'
+      path: '/oficinas'
+      fullPath: '/oficinas'
+      preLoaderRoute: typeof AppOficinasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/configuracion': {
+      id: '/_app/configuracion'
+      path: '/configuracion'
+      fullPath: '/configuracion'
+      preLoaderRoute: typeof AppConfiguracionRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/expedientes/': {
+      id: '/_app/expedientes/'
+      path: '/expedientes'
+      fullPath: '/expedientes/'
+      preLoaderRoute: typeof AppExpedientesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/expedientes/nuevo': {
+      id: '/_app/expedientes/nuevo'
+      path: '/expedientes/nuevo'
+      fullPath: '/expedientes/nuevo'
+      preLoaderRoute: typeof AppExpedientesNuevoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/expedientes/$codexp': {
+      id: '/_app/expedientes/$codexp'
+      path: '/expedientes/$codexp'
+      fullPath: '/expedientes/$codexp'
+      preLoaderRoute: typeof AppExpedientesCodexpRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/expedientes/$codexp/caratula': {
+      id: '/_app/expedientes/$codexp/caratula'
+      path: '/caratula'
+      fullPath: '/expedientes/$codexp/caratula'
+      preLoaderRoute: typeof AppExpedientesCodexpCaratulaRouteImport
+      parentRoute: typeof AppExpedientesCodexpRoute
+    }
   }
 }
 
+interface AppExpedientesCodexpRouteChildren {
+  AppExpedientesCodexpCaratulaRoute: typeof AppExpedientesCodexpCaratulaRoute
+}
+
+const AppExpedientesCodexpRouteChildren: AppExpedientesCodexpRouteChildren = {
+  AppExpedientesCodexpCaratulaRoute: AppExpedientesCodexpCaratulaRoute,
+}
+
+const AppExpedientesCodexpRouteWithChildren =
+  AppExpedientesCodexpRoute._addFileChildren(AppExpedientesCodexpRouteChildren)
+
+interface AppRouteChildren {
+  AppConfiguracionRoute: typeof AppConfiguracionRoute
+  AppOficinasRoute: typeof AppOficinasRoute
+  AppExpedientesCodexpRoute: typeof AppExpedientesCodexpRouteWithChildren
+  AppExpedientesNuevoRoute: typeof AppExpedientesNuevoRoute
+  AppExpedientesIndexRoute: typeof AppExpedientesIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppConfiguracionRoute: AppConfiguracionRoute,
+  AppOficinasRoute: AppOficinasRoute,
+  AppExpedientesCodexpRoute: AppExpedientesCodexpRouteWithChildren,
+  AppExpedientesNuevoRoute: AppExpedientesNuevoRoute,
+  AppExpedientesIndexRoute: AppExpedientesIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
