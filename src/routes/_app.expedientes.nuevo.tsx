@@ -85,8 +85,6 @@ function NuevoExpedientePage() {
       apeynom: v.apeynom,
       fechent: v.fechent,
       tema: v.tema,
-      iniciado_por: v.iniciado_por || null,
-      iniciado_nro: v.iniciado_nro || null,
       tipo_objeto: v.tipo_objeto || null,
       nro_objeto: v.nro_objeto || null,
       nro_acta: v.nro_acta || null,
