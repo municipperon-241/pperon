@@ -176,15 +176,19 @@ function NuevoExpedientePage() {
                 required
               />
             </Field>
-            <Field label="Organismo" cols={6}>
-              <Input
-                value={form.organismo}
-                onChange={(e) => update("organismo", e.target.value)}
-                required
-              />
-            </Field>
-            <Field label="Tema" cols={6}>
-              <Input value={form.tema} onChange={(e) => update("tema", e.target.value)} required />
+            <Field label="Tema" cols={12}>
+              <Select value={form.tema} onValueChange={(v) => update("tema", v)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccionar tema" />
+                </SelectTrigger>
+                <SelectContent>
+                  {TEMAS.map((t) => (
+                    <SelectItem key={t} value={t}>
+                      {t}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </Field>
           </div>
         </fieldset>
