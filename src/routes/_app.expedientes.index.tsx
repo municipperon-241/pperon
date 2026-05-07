@@ -95,7 +95,7 @@ function ExpedientesPage() {
             <tr>
               <th className="text-left px-6 py-2.5 font-semibold">Código Expediente</th>
               <th className="text-left px-3 py-2.5 font-semibold">Apellido y Nombre</th>
-              <th className="text-left px-3 py-2.5 font-semibold">Organismo</th>
+              
               <th className="text-left px-3 py-2.5 font-semibold">Tema</th>
               <th className="text-left px-3 py-2.5 font-semibold">Fecha Ent.</th>
               <th className="text-left px-3 py-2.5 font-semibold">Estado</th>
