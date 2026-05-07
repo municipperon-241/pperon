@@ -34,7 +34,6 @@ function NuevoExpedientePage() {
     letraexp: "",
     apeynom: "",
     fechent: new Date().toISOString().slice(0, 10),
-    organismo: "",
     tema: "",
     oficina_inicial_id: "",
     iniciado_por: "",
