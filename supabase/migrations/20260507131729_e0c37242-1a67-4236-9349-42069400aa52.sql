@@ -1,0 +1,1 @@
+ALTER TABLE public.expedientes DROP COLUMN IF EXISTS iniciado_por, DROP COLUMN IF EXISTS iniciado_nro;

@@ -51,8 +51,6 @@ export type Database = {
           exp_anexados: string[] | null
           fechent: string
           infraccion: string | null
-          iniciado_nro: string | null
-          iniciado_por: string | null
           letraexp: string
           nro_acta: string | null
           nro_juzgado: string | null
@@ -78,8 +76,6 @@ export type Database = {
           exp_anexados?: string[] | null
           fechent: string
           infraccion?: string | null
-          iniciado_nro?: string | null
-          iniciado_por?: string | null
           letraexp: string
           nro_acta?: string | null
           nro_juzgado?: string | null
@@ -105,8 +101,6 @@ export type Database = {
           exp_anexados?: string[] | null
           fechent?: string
           infraccion?: string | null
-          iniciado_nro?: string | null
-          iniciado_por?: string | null
           letraexp?: string
           nro_acta?: string | null
           nro_juzgado?: string | null

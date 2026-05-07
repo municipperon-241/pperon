@@ -146,14 +146,6 @@ function CaratulaPage() {
         <div className="frame">
           <div className="row">
             <div style={{ flex: 2 }}>
-              <div className="label">Iniciado por</div>
-              <div className="value">{exp.iniciado_por || "—"}</div>
-            </div>
-            <div style={{ flex: 1 }}>
-              <div className="label">Número</div>
-              <div className="value">{exp.iniciado_nro || "—"}</div>
-            </div>
-            <div style={{ flex: 2 }}>
               <div className="label">Tipo objeto</div>
               <div className="value">{exp.tipo_objeto || "—"}</div>
             </div>

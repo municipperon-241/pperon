@@ -36,8 +36,6 @@ function NuevoExpedientePage() {
     fechent: new Date().toISOString().slice(0, 10),
     tema: "",
     oficina_inicial_id: "",
-    iniciado_por: "",
-    iniciado_nro: "",
     tipo_objeto: "",
     nro_objeto: "",
     nro_acta: "",
@@ -85,8 +83,6 @@ function NuevoExpedientePage() {
       apeynom: v.apeynom,
       fechent: v.fechent,
       tema: v.tema,
-      iniciado_por: v.iniciado_por || null,
-      iniciado_nro: v.iniciado_nro || null,
       tipo_objeto: v.tipo_objeto || null,
       nro_objeto: v.nro_objeto || null,
       nro_acta: v.nro_acta || null,
@@ -194,25 +190,24 @@ function NuevoExpedientePage() {
         </fieldset>
 
         <fieldset className="border rounded-lg p-5 bg-card mt-4">
-          <legend className="px-2 text-sm font-semibold">Iniciador y Objeto</legend>
+          <legend className="px-2 text-sm font-semibold">Objeto (opcional)</legend>
           <div className="grid grid-cols-12 gap-4">
-            <Field label="Iniciado por" cols={4}>
-              <Input
-                value={form.iniciado_por}
-                onChange={(e) => update("iniciado_por", e.target.value)}
-              />
-            </Field>
-            <Field label="Número" cols={2}>
-              <Input
-                value={form.iniciado_nro}
-                onChange={(e) => update("iniciado_nro", e.target.value)}
-              />
-            </Field>
-            <Field label="Tipo Objeto" cols={3}>
-              <Input
+            <Field label="Tipo Objeto" cols={4}>
+              <Select
                 value={form.tipo_objeto}
-                onChange={(e) => update("tipo_objeto", e.target.value)}
-              />
+                onValueChange={(v) => update("tipo_objeto", v)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccionar tipo" />
+                </SelectTrigger>
+                <SelectContent>
+                  {["Inmuebles", "Rodados", "Cementerio", "Comercio"].map((t) => (
+                    <SelectItem key={t} value={t}>
+                      {t}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </Field>
             <Field label="Nº Objeto" cols={3}>
               <Input

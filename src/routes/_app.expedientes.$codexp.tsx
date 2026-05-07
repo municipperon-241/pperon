@@ -134,10 +134,8 @@ function DetalleExpedientePage() {
             </Grid>
           </Card>
 
-          <Card title="Iniciador y objeto">
+          <Card title="Objeto">
             <Grid>
-              <Item label="Iniciado por">{exp.iniciado_por || "—"}</Item>
-              <Item label="Número">{exp.iniciado_nro || "—"}</Item>
               <Item label="Tipo objeto">{exp.tipo_objeto || "—"}</Item>
               <Item label="Nº objeto">{exp.nro_objeto || "—"}</Item>
               <Item label="Nº acta">{exp.nro_acta || "—"}</Item>
