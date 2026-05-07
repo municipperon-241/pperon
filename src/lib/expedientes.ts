@@ -7,8 +7,10 @@ export const TIPOS_MOV = ["Normal", "Reapertura"] as const;
 export type TipoMov = (typeof TIPOS_MOV)[number];
 
 export function buildCodexp(codigo: number, ano: number, nro: number, letra: string) {
+  const codPad = String(codigo).padStart(6, "0");
+  const anoPad = String(ano).padStart(4, "0");
   const nroPad = String(nro).padStart(6, "0");
-  return `${codigo}-${ano}-${nroPad}-${letra.toUpperCase()}`;
+  return `${codPad}-${anoPad}-${nroPad}-${letra.toUpperCase()}`;
 }
 
 export const expedienteSchema = z.object({
