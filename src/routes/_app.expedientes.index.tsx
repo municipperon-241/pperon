@@ -128,7 +128,7 @@ function ExpedientesPage() {
                   </Link>
                 </td>
                 <td className="px-3 py-2">{e.apeynom}</td>
-                <td className="px-3 py-2 text-xs">{e.organismo}</td>
+                
                 <td className="px-3 py-2 text-xs">{e.tema}</td>
                 <td className="px-3 py-2 text-xs">{formatFecha(e.fechent)}</td>
                 <td className="px-3 py-2">
