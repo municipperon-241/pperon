@@ -84,7 +84,6 @@ function NuevoExpedientePage() {
       letraexp: v.letraexp.toUpperCase(),
       apeynom: v.apeynom,
       fechent: v.fechent,
-      organismo: v.organismo,
       tema: v.tema,
       iniciado_por: v.iniciado_por || null,
       iniciado_nro: v.iniciado_nro || null,
