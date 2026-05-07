@@ -29,14 +29,14 @@ function ExpedientesPage() {
     queryFn: async () => {
       let query = supabase
         .from("expedientes")
-        .select("codexp,codigo,anoexp,nroexp,letraexp,apeynom,estado,fechent,organismo,tema")
+        .select("codexp,codigo,anoexp,nroexp,letraexp,apeynom,estado,fechent,tema")
         .order("created_at", { ascending: false })
         .limit(500);
       if (filtroEstado !== "Todos") query = query.eq("estado", filtroEstado);
       if (q.trim()) {
         const term = `%${q.trim()}%`;
         query = query.or(
-          `apeynom.ilike.${term},codexp.ilike.${term},organismo.ilike.${term},tema.ilike.${term}`,
+          `apeynom.ilike.${term},codexp.ilike.${term},tema.ilike.${term}`,
         );
       }
       const { data, error } = await query;
