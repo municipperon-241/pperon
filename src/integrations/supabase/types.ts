@@ -59,7 +59,7 @@ export type Database = {
           nro_objeto: string | null
           nroexp: number
           oficina_inicio_id: string | null
-          organismo: string
+          organismo: string | null
           tema: string
           tipo_objeto: string | null
           ultima_nota: string | null
@@ -86,7 +86,7 @@ export type Database = {
           nro_objeto?: string | null
           nroexp: number
           oficina_inicio_id?: string | null
-          organismo: string
+          organismo?: string | null
           tema: string
           tipo_objeto?: string | null
           ultima_nota?: string | null
@@ -113,7 +113,7 @@ export type Database = {
           nro_objeto?: string | null
           nroexp?: number
           oficina_inicio_id?: string | null
-          organismo?: string
+          organismo?: string | null
           tema?: string
           tipo_objeto?: string | null
           ultima_nota?: string | null
