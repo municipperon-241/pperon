@@ -46,6 +46,24 @@ function NuevoExpedientePage() {
     operador: "",
   });
 
+  useQuery({
+    queryKey: ["next-nroexp", form.anoexp],
+    queryFn: async () => {
+      const ano = Number(form.anoexp);
+      if (!ano) return null;
+      const { data, error } = await supabase
+        .from("expedientes")
+        .select("nroexp")
+        .eq("anoexp", ano)
+        .order("nroexp", { ascending: false })
+        .limit(1);
+      if (error) throw error;
+      const next = (data?.[0]?.nroexp ?? 0) + 1;
+      setForm((s) => (s.nroexp === "" ? { ...s, nroexp: String(next) } : s));
+      return next;
+    },
+  });
+
   const { data: oficinas = [] } = useQuery({
     queryKey: ["oficinas-activas"],
     queryFn: async () => {
