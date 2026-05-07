@@ -29,14 +29,14 @@ function ExpedientesPage() {
     queryFn: async () => {
       let query = supabase
         .from("expedientes")
-        .select("codexp,codigo,anoexp,nroexp,letraexp,apeynom,estado,fechent,organismo,tema")
+        .select("codexp,codigo,anoexp,nroexp,letraexp,apeynom,estado,fechent,tema")
         .order("created_at", { ascending: false })
         .limit(500);
       if (filtroEstado !== "Todos") query = query.eq("estado", filtroEstado);
       if (q.trim()) {
         const term = `%${q.trim()}%`;
         query = query.or(
-          `apeynom.ilike.${term},codexp.ilike.${term},organismo.ilike.${term},tema.ilike.${term}`,
+          `apeynom.ilike.${term},codexp.ilike.${term},tema.ilike.${term}`,
         );
       }
       const { data, error } = await query;
@@ -95,7 +95,7 @@ function ExpedientesPage() {
             <tr>
               <th className="text-left px-6 py-2.5 font-semibold">Código Expediente</th>
               <th className="text-left px-3 py-2.5 font-semibold">Apellido y Nombre</th>
-              <th className="text-left px-3 py-2.5 font-semibold">Organismo</th>
+              
               <th className="text-left px-3 py-2.5 font-semibold">Tema</th>
               <th className="text-left px-3 py-2.5 font-semibold">Fecha Ent.</th>
               <th className="text-left px-3 py-2.5 font-semibold">Estado</th>
@@ -104,14 +104,14 @@ function ExpedientesPage() {
           <tbody>
             {isLoading && (
               <tr>
-                <td colSpan={6} className="px-6 py-10 text-center text-muted-foreground">
+                <td colSpan={5} className="px-6 py-10 text-center text-muted-foreground">
                   Cargando...
                 </td>
               </tr>
             )}
             {!isLoading && expedientes.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-6 py-10 text-center text-muted-foreground">
+                <td colSpan={5} className="px-6 py-10 text-center text-muted-foreground">
                   No hay expedientes que coincidan.
                 </td>
               </tr>
@@ -128,7 +128,7 @@ function ExpedientesPage() {
                   </Link>
                 </td>
                 <td className="px-3 py-2">{e.apeynom}</td>
-                <td className="px-3 py-2 text-xs">{e.organismo}</td>
+                
                 <td className="px-3 py-2 text-xs">{e.tema}</td>
                 <td className="px-3 py-2 text-xs">{formatFecha(e.fechent)}</td>
                 <td className="px-3 py-2">

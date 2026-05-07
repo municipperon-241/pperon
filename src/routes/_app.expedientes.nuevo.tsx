@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { buildCodexp, expedienteSchema } from "@/lib/expedientes";
+import { buildCodexp, expedienteSchema, TEMAS } from "@/lib/expedientes";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,7 +34,6 @@ function NuevoExpedientePage() {
     letraexp: "",
     apeynom: "",
     fechent: new Date().toISOString().slice(0, 10),
-    organismo: "",
     tema: "",
     oficina_inicial_id: "",
     iniciado_por: "",
@@ -85,7 +84,6 @@ function NuevoExpedientePage() {
       letraexp: v.letraexp.toUpperCase(),
       apeynom: v.apeynom,
       fechent: v.fechent,
-      organismo: v.organismo,
       tema: v.tema,
       iniciado_por: v.iniciado_por || null,
       iniciado_nro: v.iniciado_nro || null,
@@ -178,15 +176,19 @@ function NuevoExpedientePage() {
                 required
               />
             </Field>
-            <Field label="Organismo" cols={6}>
-              <Input
-                value={form.organismo}
-                onChange={(e) => update("organismo", e.target.value)}
-                required
-              />
-            </Field>
-            <Field label="Tema" cols={6}>
-              <Input value={form.tema} onChange={(e) => update("tema", e.target.value)} required />
+            <Field label="Tema" cols={12}>
+              <Select value={form.tema} onValueChange={(v) => update("tema", v)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccionar tema" />
+                </SelectTrigger>
+                <SelectContent>
+                  {TEMAS.map((t) => (
+                    <SelectItem key={t} value={t}>
+                      {t}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </Field>
           </div>
         </fieldset>

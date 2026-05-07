@@ -1,0 +1,1 @@
+ALTER TABLE public.expedientes ALTER COLUMN organismo DROP NOT NULL;

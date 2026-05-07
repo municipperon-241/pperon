@@ -25,7 +25,7 @@ export const expedienteSchema = z.object({
     .regex(/^[A-Za-z]+$/, "Solo letras"),
   apeynom: z.string().trim().min(1).max(200),
   fechent: z.string().min(1),
-  organismo: z.string().trim().min(1).max(200),
+  organismo: z.string().trim().max(200).optional().or(z.literal("")),
   tema: z.string().trim().min(1).max(200),
   oficina_inicial_id: z.string().uuid(),
   iniciado_por: z.string().trim().max(100).optional().or(z.literal("")),
@@ -88,3 +88,16 @@ export function formatFechaHora(d?: string | null) {
     return d;
   }
 }
+
+export const TEMAS = [
+  "HABILITACION COMERCIO",
+  "RENDICION PLAN NACER",
+  "CERTIFICADO DE DISCAPACIDAD",
+  "RADICACION/LOCALIZACION",
+  "DENUNCIA DE VECINOS",
+  "OFICIO JUDICIAL/CEDULA",
+  "ACTAS DE INFRACCION",
+  "PERMISOS DE FUNCIONAMIENTO",
+  "CAMBIO CONTRIBUYENTE/TITULARIDAD",
+  "PAGOS EN CUOTAS",
+] as const;
