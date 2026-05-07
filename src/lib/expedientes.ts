@@ -14,7 +14,7 @@ export function buildCodexp(codigo: number, ano: number, nro: number, letra: str
 }
 
 export const expedienteSchema = z.object({
-  codigo: z.coerce.number().int().min(1).max(9999),
+  codigo: z.coerce.number().int().min(1).max(999999),
   anoexp: z.coerce.number().int().min(1900).max(2100),
   nroexp: z.coerce.number().int().min(1).max(999999),
   letraexp: z
