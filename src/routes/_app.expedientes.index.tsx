@@ -104,14 +104,14 @@ function ExpedientesPage() {
           <tbody>
             {isLoading && (
               <tr>
-                <td colSpan={6} className="px-6 py-10 text-center text-muted-foreground">
+                <td colSpan={5} className="px-6 py-10 text-center text-muted-foreground">
                   Cargando...
                 </td>
               </tr>
             )}
             {!isLoading && expedientes.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-6 py-10 text-center text-muted-foreground">
+                <td colSpan={5} className="px-6 py-10 text-center text-muted-foreground">
                   No hay expedientes que coincidan.
                 </td>
               </tr>
