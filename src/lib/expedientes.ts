@@ -46,7 +46,6 @@ export const movimientoSchema = z.object({
   estado_resultante: z.enum(ESTADOS),
   tipo_movimiento: z.enum(TIPOS_MOV).default("Normal"),
   observac: z.string().trim().max(1000).optional().or(z.literal("")),
-  operador: z.string().trim().min(1).max(100),
 });
 
 export const oficinaSchema = z.object({

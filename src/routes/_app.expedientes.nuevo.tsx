@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { ArrowLeft, Save } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/_app/expedientes/nuevo")({
   component: NuevoExpedientePage,
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/_app/expedientes/nuevo")({
 
 function NuevoExpedientePage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
     codigo: "",
@@ -43,7 +45,6 @@ function NuevoExpedientePage() {
     nro_juzgado: "",
     comentario: "",
     ultima_nota: "",
-    operador: "",
   });
 
   useQuery({
@@ -83,7 +84,8 @@ function NuevoExpedientePage() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const parse = expedienteSchema.safeParse(form);
+    const operador = user?.usuario ?? "sistema";
+    const parse = expedienteSchema.safeParse({ ...form, operador });
     if (!parse.success) {
       toast.error(parse.error.issues[0]?.message ?? "Datos inválidos");
       return;
@@ -110,8 +112,8 @@ function NuevoExpedientePage() {
       comentario: v.comentario || null,
       ultima_nota: v.ultima_nota || null,
       estado: "Pendiente",
-      created_by: v.operador,
-      updated_by: v.operador,
+      created_by: operador,
+      updated_by: operador,
     });
 
     if (expErr) {
@@ -124,7 +126,6 @@ function NuevoExpedientePage() {
       return;
     }
 
-    // Primer movimiento automático
     const { error: movErr } = await supabase.from("movimientos").insert({
       codexp,
       nromov: 1,
@@ -133,7 +134,7 @@ function NuevoExpedientePage() {
       estado_resultante: "Pendiente",
       tipo_movimiento: "Normal",
       observac: "Inicio del expediente",
-      created_by: v.operador,
+      created_by: operador,
     });
 
     setSaving(false);
@@ -254,7 +255,7 @@ function NuevoExpedientePage() {
         <fieldset className="border rounded-lg p-5 bg-card mt-4">
           <legend className="px-2 text-sm font-semibold">Movimiento inicial</legend>
           <div className="grid grid-cols-12 gap-4">
-            <Field label="Oficina inicial *" cols={6}>
+            <Field label="Oficina inicial *" cols={12}>
               <Select
                 value={form.oficina_inicial_id}
                 onValueChange={(v) => update("oficina_inicial_id", v)}
@@ -270,14 +271,6 @@ function NuevoExpedientePage() {
                   ))}
                 </SelectContent>
               </Select>
-            </Field>
-            <Field label="Operador *" cols={6}>
-              <Input
-                value={form.operador}
-                onChange={(e) => update("operador", e.target.value)}
-                placeholder="Tu nombre"
-                required
-              />
             </Field>
           </div>
         </fieldset>
