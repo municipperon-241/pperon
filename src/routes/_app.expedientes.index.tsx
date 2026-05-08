@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, Search, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth, canEdit } from "@/lib/auth";
 
 export const Route = createFileRoute("/_app/expedientes/")({
   component: ExpedientesPage,
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/_app/expedientes/")({
 
 function ExpedientesPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [filtroEstado, setFiltroEstado] = useState<Estado | "Todos">("Todos");
   const [q, setQ] = useState("");
 
@@ -56,9 +58,11 @@ function ExpedientesPage() {
             {expedientes.length} expediente{expedientes.length !== 1 && "s"}
           </p>
         </div>
-        <Button onClick={() => navigate({ to: "/expedientes/nuevo" })}>
-          <Plus className="h-4 w-4" /> Nuevo expediente
-        </Button>
+        {canEdit(user?.rol) && (
+          <Button onClick={() => navigate({ to: "/expedientes/nuevo" })}>
+            <Plus className="h-4 w-4" /> Nuevo expediente
+          </Button>
+        )}
       </header>
 
       <div className="px-6 py-3 border-b bg-muted/40 flex flex-wrap items-center gap-3">
