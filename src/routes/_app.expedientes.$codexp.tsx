@@ -29,8 +29,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowLeft, Plus, Printer, ArrowRight, Lock } from "lucide-react";
+import { ArrowLeft, Plus, Printer, ArrowRight, Lock, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth, canEdit, isAdmin } from "@/lib/auth";
 
 export const Route = createFileRoute("/_app/expedientes/$codexp")({
   component: DetalleExpedientePage,
@@ -43,7 +44,18 @@ function DetalleExpedientePage() {
   const { codexp } = Route.useParams();
   const navigate = useNavigate();
   const qc = useQueryClient();
+  const { user } = useAuth();
   const [openMov, setOpenMov] = useState(false);
+
+  async function handleDelete() {
+    if (!confirm(`¿Eliminar el expediente ${codexp}? Se borrarán también sus movimientos.`)) return;
+    const { error: e1 } = await supabase.from("movimientos").delete().eq("codexp", codexp);
+    if (e1) return toast.error(e1.message);
+    const { error: e2 } = await supabase.from("expedientes").delete().eq("codexp", codexp);
+    if (e2) return toast.error(e2.message);
+    toast.success("Expediente eliminado");
+    navigate({ to: "/expedientes" });
+  }
 
   const { data: exp, isLoading } = useQuery({
     queryKey: ["expediente", codexp],
@@ -94,23 +106,37 @@ function DetalleExpedientePage() {
             <Printer className="h-4 w-4" /> Imprimir carátula
           </Button>
         </Link>
-        <Dialog open={openMov} onOpenChange={setOpenMov}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4" /> Nuevo movimiento
+        {canEdit(user?.rol) && (
+          <Link to="/expedientes/$codexp/editar" params={{ codexp }}>
+            <Button variant="outline">
+              <Pencil className="h-4 w-4" /> Editar
             </Button>
-          </DialogTrigger>
-          <NuevoMovimientoDialog
-            codexp={codexp}
-            estadoActual={exp.estado as Estado}
-            onClose={() => {
-              setOpenMov(false);
-              qc.invalidateQueries({ queryKey: ["expediente", codexp] });
-              qc.invalidateQueries({ queryKey: ["movimientos", codexp] });
-              qc.invalidateQueries({ queryKey: ["expedientes"] });
-            }}
-          />
-        </Dialog>
+          </Link>
+        )}
+        {isAdmin(user?.rol) && (
+          <Button variant="outline" onClick={handleDelete}>
+            <Trash2 className="h-4 w-4 text-destructive" /> Eliminar
+          </Button>
+        )}
+        {canEdit(user?.rol) && (
+          <Dialog open={openMov} onOpenChange={setOpenMov}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="h-4 w-4" /> Nuevo movimiento
+              </Button>
+            </DialogTrigger>
+            <NuevoMovimientoDialog
+              codexp={codexp}
+              estadoActual={exp.estado as Estado}
+              onClose={() => {
+                setOpenMov(false);
+                qc.invalidateQueries({ queryKey: ["expediente", codexp] });
+                qc.invalidateQueries({ queryKey: ["movimientos", codexp] });
+                qc.invalidateQueries({ queryKey: ["expedientes"] });
+              }}
+            />
+          </Dialog>
+        )}
       </header>
 
       <div className="flex-1 overflow-auto p-6 max-w-6xl mx-auto w-full grid lg:grid-cols-3 gap-6">
