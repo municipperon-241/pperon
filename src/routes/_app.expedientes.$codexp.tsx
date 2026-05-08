@@ -316,7 +316,7 @@ function NuevoMovimientoDialog({
       estado_resultante: form.estado_resultante as Estado,
       tipo_movimiento: form.tipo_movimiento as "Normal" | "Reapertura",
       observac: form.observac || null,
-      created_by: form.operador,
+      created_by: user?.usuario ?? "sistema",
     });
     setSaving(false);
     if (error) {
@@ -403,14 +403,6 @@ function NuevoMovimientoDialog({
             rows={3}
             value={form.observac}
             onChange={(e) => setForm((s) => ({ ...s, observac: e.target.value }))}
-          />
-        </div>
-        <div>
-          <Label className="text-xs">Operador *</Label>
-          <Input
-            value={form.operador}
-            onChange={(e) => setForm((s) => ({ ...s, operador: e.target.value }))}
-            placeholder="Tu nombre"
           />
         </div>
       </div>
