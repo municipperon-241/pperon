@@ -274,6 +274,7 @@ function NuevoMovimientoDialog({
   estadoActual: Estado;
   onClose: () => void;
 }) {
+  const { user } = useAuth();
   const [saving, setSaving] = useState(false);
   const finalizado = estadoActual === "Finalizado";
   const [form, setForm] = useState<{
@@ -281,13 +282,11 @@ function NuevoMovimientoDialog({
     estado_resultante: Estado;
     tipo_movimiento: "Normal" | "Reapertura";
     observac: string;
-    operador: string;
   }>({
     oficina_id: "",
     estado_resultante: finalizado ? "Pendiente" : estadoActual,
     tipo_movimiento: finalizado ? "Reapertura" : "Normal",
     observac: "",
-    operador: "",
   });
 
   const { data: oficinas = [] } = useQuery({
