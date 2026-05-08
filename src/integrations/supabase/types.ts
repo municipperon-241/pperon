@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_users: {
+        Row: {
+          activo: boolean
+          created_at: string
+          id: string
+          nombre: string
+          password_hash: string
+          rol: Database["public"]["Enums"]["app_role_tipo"]
+          updated_at: string
+          usuario: string
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          id?: string
+          nombre?: string
+          password_hash: string
+          rol?: Database["public"]["Enums"]["app_role_tipo"]
+          updated_at?: string
+          usuario: string
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          id?: string
+          nombre?: string
+          password_hash?: string
+          rol?: Database["public"]["Enums"]["app_role_tipo"]
+          updated_at?: string
+          usuario?: string
+        }
+        Relationships: []
+      }
       configuracion: {
         Row: {
           direccion: string | null
@@ -210,6 +243,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      app_role_tipo: "admin" | "editor" | "lector"
       estado_expediente: "Pendiente" | "Demorado" | "Archivado" | "Finalizado"
       tipo_movimiento: "Normal" | "Reapertura"
     }
@@ -339,6 +373,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role_tipo: ["admin", "editor", "lector"],
       estado_expediente: ["Pendiente", "Demorado", "Archivado", "Finalizado"],
       tipo_movimiento: ["Normal", "Reapertura"],
     },
