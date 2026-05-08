@@ -18,6 +18,7 @@ import { Route as AppConfiguracionRouteImport } from './routes/_app.configuracio
 import { Route as AppExpedientesIndexRouteImport } from './routes/_app.expedientes.index'
 import { Route as AppExpedientesNuevoRouteImport } from './routes/_app.expedientes.nuevo'
 import { Route as AppExpedientesCodexpRouteImport } from './routes/_app.expedientes.$codexp'
+import { Route as AppExpedientesCodexpEditarRouteImport } from './routes/_app.expedientes.$codexp.editar'
 import { Route as AppExpedientesCodexpCaratulaRouteImport } from './routes/_app.expedientes.$codexp.caratula'
 
 const LoginRoute = LoginRouteImport.update({
@@ -64,6 +65,12 @@ const AppExpedientesCodexpRoute = AppExpedientesCodexpRouteImport.update({
   path: '/expedientes/$codexp',
   getParentRoute: () => AppRoute,
 } as any)
+const AppExpedientesCodexpEditarRoute =
+  AppExpedientesCodexpEditarRouteImport.update({
+    id: '/editar',
+    path: '/editar',
+    getParentRoute: () => AppExpedientesCodexpRoute,
+  } as any)
 const AppExpedientesCodexpCaratulaRoute =
   AppExpedientesCodexpCaratulaRouteImport.update({
     id: '/caratula',
@@ -81,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/expedientes/nuevo': typeof AppExpedientesNuevoRoute
   '/expedientes/': typeof AppExpedientesIndexRoute
   '/expedientes/$codexp/caratula': typeof AppExpedientesCodexpCaratulaRoute
+  '/expedientes/$codexp/editar': typeof AppExpedientesCodexpEditarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -92,6 +100,7 @@ export interface FileRoutesByTo {
   '/expedientes/nuevo': typeof AppExpedientesNuevoRoute
   '/expedientes': typeof AppExpedientesIndexRoute
   '/expedientes/$codexp/caratula': typeof AppExpedientesCodexpCaratulaRoute
+  '/expedientes/$codexp/editar': typeof AppExpedientesCodexpEditarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -105,6 +114,7 @@ export interface FileRoutesById {
   '/_app/expedientes/nuevo': typeof AppExpedientesNuevoRoute
   '/_app/expedientes/': typeof AppExpedientesIndexRoute
   '/_app/expedientes/$codexp/caratula': typeof AppExpedientesCodexpCaratulaRoute
+  '/_app/expedientes/$codexp/editar': typeof AppExpedientesCodexpEditarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/expedientes/nuevo'
     | '/expedientes/'
     | '/expedientes/$codexp/caratula'
+    | '/expedientes/$codexp/editar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/expedientes/nuevo'
     | '/expedientes'
     | '/expedientes/$codexp/caratula'
+    | '/expedientes/$codexp/editar'
   id:
     | '__root__'
     | '/'
@@ -141,6 +153,7 @@ export interface FileRouteTypes {
     | '/_app/expedientes/nuevo'
     | '/_app/expedientes/'
     | '/_app/expedientes/$codexp/caratula'
+    | '/_app/expedientes/$codexp/editar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExpedientesCodexpRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/expedientes/$codexp/editar': {
+      id: '/_app/expedientes/$codexp/editar'
+      path: '/editar'
+      fullPath: '/expedientes/$codexp/editar'
+      preLoaderRoute: typeof AppExpedientesCodexpEditarRouteImport
+      parentRoute: typeof AppExpedientesCodexpRoute
+    }
     '/_app/expedientes/$codexp/caratula': {
       id: '/_app/expedientes/$codexp/caratula'
       path: '/caratula'
@@ -226,10 +246,12 @@ declare module '@tanstack/react-router' {
 
 interface AppExpedientesCodexpRouteChildren {
   AppExpedientesCodexpCaratulaRoute: typeof AppExpedientesCodexpCaratulaRoute
+  AppExpedientesCodexpEditarRoute: typeof AppExpedientesCodexpEditarRoute
 }
 
 const AppExpedientesCodexpRouteChildren: AppExpedientesCodexpRouteChildren = {
   AppExpedientesCodexpCaratulaRoute: AppExpedientesCodexpCaratulaRoute,
+  AppExpedientesCodexpEditarRoute: AppExpedientesCodexpEditarRoute,
 }
 
 const AppExpedientesCodexpRouteWithChildren =
