@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
-import { FileText, Building2, Settings, LayoutGrid, Users, LogOut } from "lucide-react";
-import { useEffect } from "react";
+import { FileText, Building2, Settings, LayoutGrid, Users, LogOut, ChevronDown, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth, ROL_LABEL, isAdmin } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,16 @@ export function AppLayout() {
   const loc = useLocation();
   const navigate = useNavigate();
   const { user, loading, logout } = useAuth();
+  const admin = !!user && isAdmin(user.rol);
+  const inConfig =
+    loc.pathname.startsWith("/configuracion") ||
+    loc.pathname.startsWith("/oficinas") ||
+    loc.pathname.startsWith("/usuarios");
+  const [configOpen, setConfigOpen] = useState(inConfig);
+
+  useEffect(() => {
+    if (inConfig) setConfigOpen(true);
+  }, [inConfig]);
 
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/login" });
@@ -22,11 +32,12 @@ export function AppLayout() {
     );
   }
 
-  const NAV = [
-    { to: "/", label: "Expedientes", icon: FileText, show: true },
-    { to: "/oficinas", label: "Oficinas", icon: Building2, show: isAdmin(user.rol) },
-    { to: "/usuarios", label: "Usuarios", icon: Users, show: isAdmin(user.rol) },
-    { to: "/configuracion", label: "Configuración", icon: Settings, show: isAdmin(user.rol) },
+  const NAV = [{ to: "/", label: "Expedientes", icon: FileText, show: true }];
+
+  const CONFIG_SUB = [
+    { to: "/configuracion", label: "General", icon: Settings, exact: true },
+    { to: "/oficinas", label: "Oficinas", icon: Building2 },
+    { to: "/usuarios", label: "Usuarios", icon: Users },
   ];
 
   return (
@@ -40,7 +51,7 @@ export function AppLayout() {
           </div>
         </div>
         <nav className="flex-1 py-3">
-          {NAV.filter((n) => n.show).map((n) => {
+          {NAV.map((n) => {
             const active =
               loc.pathname === n.to || (n.to !== "/" && loc.pathname.startsWith(n.to));
             const Icon = n.icon;
@@ -59,6 +70,52 @@ export function AppLayout() {
               </Link>
             );
           })}
+          {admin && (
+            <div>
+              <button
+                type="button"
+                onClick={() => setConfigOpen((o) => !o)}
+                className={cn(
+                  "w-full flex items-center gap-3 px-5 py-2.5 text-sm transition-colors border-l-2 text-left",
+                  inConfig
+                    ? "bg-sidebar-accent border-sidebar-primary font-medium"
+                    : "border-transparent hover:bg-sidebar-accent/60",
+                )}
+              >
+                <Settings className="h-4 w-4" />
+                <span className="flex-1">Configuración</span>
+                {configOpen ? (
+                  <ChevronDown className="h-3.5 w-3.5" />
+                ) : (
+                  <ChevronRight className="h-3.5 w-3.5" />
+                )}
+              </button>
+              {configOpen && (
+                <div className="bg-sidebar-accent/30">
+                  {CONFIG_SUB.map((s) => {
+                    const sActive = s.exact
+                      ? loc.pathname === s.to
+                      : loc.pathname === s.to || loc.pathname.startsWith(s.to + "/");
+                    const SIcon = s.icon;
+                    return (
+                      <Link
+                        key={s.to}
+                        to={s.to}
+                        className={cn(
+                          "flex items-center gap-3 pl-10 pr-5 py-2 text-xs transition-colors border-l-2",
+                          sActive
+                            ? "bg-sidebar-accent border-sidebar-primary font-medium"
+                            : "border-transparent hover:bg-sidebar-accent/60",
+                        )}
+                      >
+                        <SIcon className="h-3.5 w-3.5" /> {s.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </nav>
         <div className="px-4 py-3 border-t border-sidebar-border space-y-2">
           <div className="text-xs">
