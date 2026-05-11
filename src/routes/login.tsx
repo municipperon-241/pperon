@@ -42,12 +42,9 @@ function LoginPage() {
         onSubmit={onSubmit}
         className="w-full max-w-sm bg-card border rounded-lg p-6 shadow-sm"
       >
-        <div className="flex items-center gap-2 mb-6">
-          <LayoutGrid className="h-6 w-6 text-primary shrink-0" />
-          <h1 className="text-base font-bold leading-tight">
-            Gestión Integral de Módulos Municipales GIMM
-          </h1>
-        </div>
+        <h1 className="text-base font-bold leading-tight text-center mb-6">
+          Gestión Integral de Módulos Municipales GIMM
+        </h1>
 
         <div className="space-y-3">
           <div>
