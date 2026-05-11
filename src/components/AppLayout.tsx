@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
-import { FileText, Building2, Settings, LayoutGrid, Users, LogOut } from "lucide-react";
-import { useEffect } from "react";
+import { FileText, Building2, Settings, LayoutGrid, Users, LogOut, ChevronDown, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth, ROL_LABEL, isAdmin } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,16 @@ export function AppLayout() {
   const loc = useLocation();
   const navigate = useNavigate();
   const { user, loading, logout } = useAuth();
+  const admin = !!user && isAdmin(user.rol);
+  const inConfig =
+    loc.pathname.startsWith("/configuracion") ||
+    loc.pathname.startsWith("/oficinas") ||
+    loc.pathname.startsWith("/usuarios");
+  const [configOpen, setConfigOpen] = useState(inConfig);
+
+  useEffect(() => {
+    if (inConfig) setConfigOpen(true);
+  }, [inConfig]);
 
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/login" });
@@ -22,11 +32,12 @@ export function AppLayout() {
     );
   }
 
-  const NAV = [
-    { to: "/", label: "Expedientes", icon: FileText, show: true },
-    { to: "/oficinas", label: "Oficinas", icon: Building2, show: isAdmin(user.rol) },
-    { to: "/usuarios", label: "Usuarios", icon: Users, show: isAdmin(user.rol) },
-    { to: "/configuracion", label: "Configuración", icon: Settings, show: isAdmin(user.rol) },
+  const NAV = [{ to: "/", label: "Expedientes", icon: FileText, show: true }];
+
+  const CONFIG_SUB = [
+    { to: "/configuracion", label: "General", icon: Settings, exact: true },
+    { to: "/oficinas", label: "Oficinas", icon: Building2 },
+    { to: "/usuarios", label: "Usuarios", icon: Users },
   ];
 
   return (
