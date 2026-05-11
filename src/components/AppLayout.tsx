@@ -51,7 +51,7 @@ export function AppLayout() {
           </div>
         </div>
         <nav className="flex-1 py-3">
-          {NAV.filter((n) => n.show).map((n) => {
+          {NAV.map((n) => {
             const active =
               loc.pathname === n.to || (n.to !== "/" && loc.pathname.startsWith(n.to));
             const Icon = n.icon;
@@ -70,6 +70,52 @@ export function AppLayout() {
               </Link>
             );
           })}
+          {admin && (
+            <div>
+              <button
+                type="button"
+                onClick={() => setConfigOpen((o) => !o)}
+                className={cn(
+                  "w-full flex items-center gap-3 px-5 py-2.5 text-sm transition-colors border-l-2 text-left",
+                  inConfig
+                    ? "bg-sidebar-accent border-sidebar-primary font-medium"
+                    : "border-transparent hover:bg-sidebar-accent/60",
+                )}
+              >
+                <Settings className="h-4 w-4" />
+                <span className="flex-1">Configuración</span>
+                {configOpen ? (
+                  <ChevronDown className="h-3.5 w-3.5" />
+                ) : (
+                  <ChevronRight className="h-3.5 w-3.5" />
+                )}
+              </button>
+              {configOpen && (
+                <div className="bg-sidebar-accent/30">
+                  {CONFIG_SUB.map((s) => {
+                    const sActive = s.exact
+                      ? loc.pathname === s.to
+                      : loc.pathname === s.to || loc.pathname.startsWith(s.to + "/");
+                    const SIcon = s.icon;
+                    return (
+                      <Link
+                        key={s.to}
+                        to={s.to}
+                        className={cn(
+                          "flex items-center gap-3 pl-10 pr-5 py-2 text-xs transition-colors border-l-2",
+                          sActive
+                            ? "bg-sidebar-accent border-sidebar-primary font-medium"
+                            : "border-transparent hover:bg-sidebar-accent/60",
+                        )}
+                      >
+                        <SIcon className="h-3.5 w-3.5" /> {s.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </nav>
         <div className="px-4 py-3 border-t border-sidebar-border space-y-2">
           <div className="text-xs">
