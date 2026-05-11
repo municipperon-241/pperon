@@ -43,11 +43,10 @@ function LoginPage() {
         className="w-full max-w-sm bg-card border rounded-lg p-6 shadow-sm"
       >
         <div className="flex items-center gap-2 mb-6">
-          <LayoutGrid className="h-6 w-6 text-primary" />
-          <div>
-            <h1 className="text-lg font-bold leading-tight">Sistema Municipal</h1>
-            <p className="text-xs text-muted-foreground">Gestión de Expedientes</p>
-          </div>
+          <LayoutGrid className="h-6 w-6 text-primary shrink-0" />
+          <h1 className="text-base font-bold leading-tight">
+            Gestión Integral de Módulos Municipales GIMM
+          </h1>
         </div>
 
         <div className="space-y-3">
